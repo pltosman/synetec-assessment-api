@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SynetecAssessmentApi.Domain;
+using SynetecAssessmentApi.Domain.Concrete;
 using System.Reflection;
 
-namespace SynetecAssessmentApi.Persistence
+namespace SynetecAssessmentApi.Persistence.Concrete.EntityFramework.Contexts
 {
     public class AppDbContext : DbContext
     {
@@ -15,9 +16,23 @@ namespace SynetecAssessmentApi.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+           
             base.OnModelCreating(modelBuilder);
+        }
+
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            #if DEBUG
+
+            optionsBuilder.EnableSensitiveDataLogging();// DISABLE PRODUCTION
+
+            #endif
+
+
+            base.OnConfiguring(optionsBuilder);
         }
     }
 }

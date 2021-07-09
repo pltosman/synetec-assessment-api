@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="FluentValidation" Version="9.5.1" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="9.5.1" />
+     </ItemGroup>
+  <ItemGroup>
+    <None Remove="Abstract\" />
+    <None Remove="Concrete\" />
+    <None Remove="AutoMapper\" />
+    <None Remove="AutoMapper\Profiles\" />
+    <None Remove="Validations\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Abstract\" />
+    <Folder Include="Concrete\" />
+    <Folder Include="AutoMapper\" />
+    <Folder Include="AutoMapper\Profiles\" />
+    <Folder Include="Validations\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SynetecAssessmentApi.Domain\SynetecAssessmentApi.Domain.csproj" />
+    <ProjectReference Include="..\SynetecAssessmentApi.Shared\SynetecAssessmentApi.Shared.csproj" />
+    <ProjectReference Include="..\SynetecAssessment.Persistence\SynetecAssessmentApi.Persistence.csproj" />
+  </ItemGroup>
+</Project>

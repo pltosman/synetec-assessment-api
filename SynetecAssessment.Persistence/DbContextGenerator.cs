@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using SynetecAssessmentApi.Domain;
+using SynetecAssessmentApi.Domain.Concrete;
+using SynetecAssessmentApi.Persistence.Concrete.EntityFramework.Contexts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,28 +22,29 @@ namespace SynetecAssessmentApi.Persistence
 
         public static void SeedData(AppDbContext context)
         {
-            var departments = new List<Department>
+            var departments = new List<Department>()
             {
-                new Department(1, "Finance", "The finance department for the company"),
-                new Department(2, "Human Resources", "The Human Resources department for the company"),
-                new Department(3, "IT", "The IT support department for the company"),
-                new Department(4, "Marketing", "The Marketing department for the company")
+                new Department(){Id=1, Title ="Finance", Description= "The finance department for the company" },
+                new Department(){Id=2, Title ="Human Resources", Description= "The Human Resources department for the company"},
+                new Department(){Id=3, Title ="IT", Description= "The IT support department for the company" },
+                new Department(){Id=4, Title ="Marketing", Description= "The Marketing department for the company"}
             };
 
-            var employees = new List<Employee>
+            var employees = new List<Employee>()
             {
-                new Employee(1, "John Smith", "Accountant (Senior)", 60000, 1),
-                new Employee(2, "Janet Jones", "HR Director", 90000, 2),
-                new Employee(3, "Robert Rinser", "IT Director", 95000, 3),
-                new Employee(4, "Jilly Thornton", "Marketing Manager (Senior)", 55000, 4),
-                new Employee(5, "Gemma Jones", "Marketing Manager (Junior)", 45000, 4),
-                new Employee(6, "Peter Bateman", "IT Support Engineer", 35000, 3),
-                new Employee(7, "Azimir Smirkov", "Creative Director", 62500, 4),
-                new Employee(8, "Penelope Scunthorpe", "Creative Assistant", 38750, 4),
-                new Employee(9, "Amil Kahn", "IT Support Engineer", 36000, 3),
-                new Employee(10, "Joe Masters", "IT Support Engineer", 36500, 3),
-                new Employee(11, "Paul Azgul", "HR Manager", 53000, 2),
-                new Employee(12, "Jennifer Smith", "Accountant (Junior)", 48000, 1),
+                new Employee(){Id=1, Fullname= "John Smith", JobTitle= "Accountant (Senior)", Salary= 60000,  DepartmentId=1 },
+                new Employee(){Id=2, Fullname= "Janet Jones", JobTitle=  "HR Director", Salary= 90000,  DepartmentId=2 },
+                new Employee(){Id=3, Fullname= "Robert Rinser", JobTitle=  "IT Director", Salary= 95000,  DepartmentId=3 },
+                new Employee(){Id=4, Fullname= "Jilly Thornton", JobTitle= "Marketing Manager (Senior)", Salary= 55000,  DepartmentId=4 },
+                new Employee(){Id=5, Fullname= "Gemma Jones", JobTitle= "Marketing Manager (Junior)", Salary= 45000,  DepartmentId=4 },
+                new Employee(){Id=6, Fullname= "Peter Bateman", JobTitle= "IT Support Engineer", Salary= 35000,  DepartmentId=3 },
+                new Employee(){Id=7, Fullname= "Azimir Smirkov", JobTitle= "Creative Director", Salary= 62500,  DepartmentId=4 },
+                new Employee(){Id=8, Fullname= "Penelope Scunthorpe", JobTitle= "Creative Assistant", Salary= 38750,  DepartmentId=4 },
+                new Employee(){Id=9, Fullname= "Amil Kahn", JobTitle= "IT Support Engineer", Salary= 36000,  DepartmentId=3 },
+                new Employee(){Id=10, Fullname= "Joe Masters", JobTitle= "IT Support Engineer", Salary= 36500,  DepartmentId=3 },
+                new Employee(){Id=11, Fullname= "Paul Azgul", JobTitle= "HR Manager", Salary= 53000,  DepartmentId=2 },
+                new Employee(){Id=12, Fullname= "Jennifer Smith", JobTitle= "Accountant (Junior)", Salary= 48000,  DepartmentId=1 },
+            
             };
 
             context.Departments.AddRange(departments);

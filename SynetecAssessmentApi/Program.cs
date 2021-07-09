@@ -1,7 +1,14 @@
+using System.IO;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using SynetecAssessmentApi.Persistence;
+using Serilog;
+using Serilog.Events;
+using System;
+using SynetecAssessmentApi.Persistence.Concrete.EntityFramework.Contexts;
 
 namespace SynetecAssessmentApi
 {
@@ -9,24 +16,62 @@ namespace SynetecAssessmentApi
     {
         public static void Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build();
+            Log.Logger = new LoggerConfiguration()
+        .MinimumLevel.Verbose()
+         .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Information)
+                     .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Information)
+                     .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                     .MinimumLevel.Override("System", LogEventLevel.Information)
+        .Enrich.FromLogContext()
+        .WriteTo.File(
+            "Logs/log-.txt",
+            shared: true,
+            flushToDiskInterval: TimeSpan.FromSeconds(5),
+            rollingInterval: RollingInterval.Day)
+        .CreateLogger();
 
-            using (var scope = host.Services.CreateScope())
+
+
+
+            try
             {
-                var services = scope.ServiceProvider;
-                var context = services.GetRequiredService<AppDbContext>();
+                Log.Information("Host starting.");
 
-                DbContextGenerator.Initialize(services);
+                var webHost = BuildWebHost(args);
+
+
+                using (var scope = webHost.Services.CreateScope())
+                {
+                    var services = scope.ServiceProvider;
+                    var context = services.GetRequiredService<AppDbContext>();
+
+                    DbContextGenerator.Initialize(services);
+                }
+
+
+                webHost.Run();
             }
-
-            host.Run();
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Host terminated unexpectedly");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+        public static IWebHost BuildWebHost(string[] args) =>
+     WebHost.CreateDefaultBuilder(args)
+         .CaptureStartupErrors(true)
+         .UseUrls("http://localhost:5003")
+         .UseStartup<Startup>()
+         .UseContentRoot(Directory.GetCurrentDirectory())
+         .ConfigureLogging(options =>
+         {
+             options.ClearProviders();
+         })         .UseSerilog()
+         .Build();
     }
+    
 }

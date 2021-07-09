@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+    <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Data\" />
+    <None Remove="Data\Abstract\" />
+    <None Remove="Data\Concrete\" />
+    <None Remove="Data\Concrete\EntityFramework\" />
+    <None Remove="Entities\" />
+    <None Remove="Entities\Abstract\" />
+    <None Remove="Utilities\" />
+    <None Remove="Utilities\Results\" />
+    <None Remove="Utilities\Results\Abstract\" />
+    <None Remove="Utilities\Results\ComplexTypes\" />
+    <None Remove="Utilities\Results\Concrete\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data\" />
+    <Folder Include="Data\Abstract\" />
+    <Folder Include="Data\Concrete\" />
+    <Folder Include="Data\Concrete\EntityFramework\" />
+    <Folder Include="Entities\" />
+    <Folder Include="Entities\Abstract\" />
+    <Folder Include="Utilities\" />
+    <Folder Include="Utilities\Results\" />
+    <Folder Include="Utilities\Results\Abstract\" />
+    <Folder Include="Utilities\Results\ComplexTypes\" />
+    <Folder Include="Utilities\Results\Concrete\" />
+  </ItemGroup>
+</Project>

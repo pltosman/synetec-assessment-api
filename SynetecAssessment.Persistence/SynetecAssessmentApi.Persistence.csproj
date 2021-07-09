@@ -13,4 +13,20 @@
     <ProjectReference Include="..\SynetecAssessmentApi.Domain\SynetecAssessmentApi.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Abstract\" />
+    <None Remove="Concrete\" />
+    <None Remove="Concrete\EntityFramework\" />
+    <None Remove="Concrete\EntityFramework\Contexts\" />
+    <None Remove="Concrete\EntityFramework\EntityConfiguration\" />
+    <None Remove="Concrete\EntityFramework\Repositories\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Abstract\" />
+    <Folder Include="Concrete\" />
+    <Folder Include="Concrete\EntityFramework\" />
+    <Folder Include="Concrete\EntityFramework\Contexts\" />
+    <Folder Include="Concrete\EntityFramework\EntityConfiguration\" />
+    <Folder Include="Concrete\EntityFramework\Repositories\" />
+  </ItemGroup>
 </Project>

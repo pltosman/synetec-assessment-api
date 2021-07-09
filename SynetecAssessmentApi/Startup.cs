@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -5,7 +6,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using SynetecAssessmentApi.Persistence;
+using SynetecAssessmentApi.Persistence.Abstract;
+using SynetecAssessmentApi.Persistence.Concrete.EntityFramework;
+using SynetecAssessmentApi.Persistence.Concrete.EntityFramework.Contexts;
+using SynetecAssessmentApi.Shared.Data.Abstract;
+using SynetecAssessmentApi.Shared.Data.Concrete.EntityFramework;
+using SyntecAssessmentApi.Services.Abstract;
+using SyntecAssessmentApi.Services.AutoMapper.Profiles;
+using SyntecAssessmentApi.Services.Concrete;
+using AutoMapper;
+using FluentValidation;
 
 namespace SynetecAssessmentApi
 {
@@ -28,7 +38,18 @@ namespace SynetecAssessmentApi
             });
 
             services.AddDbContext<AppDbContext>(options =>
-                options.UseInMemoryDatabase(databaseName: "HrDb"));
+                options.UseInMemoryDatabase(databaseName: "HrDb"),
+                ServiceLifetime.Singleton,ServiceLifetime.Singleton);
+
+
+        
+           // services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+            services.AddAutoMapper(typeof(EmployeeProfile), typeof(DepartmentProfile));
+            services.AddTransient(typeof(IEntityRepository<>), typeof(EfEntityRepositoryBase<>));
+            services.AddSingleton<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IBonusPoolService, BonusPoolManager>();
+            services.AddScoped<ICalculator, Calculator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
