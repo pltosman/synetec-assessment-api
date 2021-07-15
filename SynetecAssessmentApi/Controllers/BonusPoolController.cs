@@ -39,12 +39,13 @@ namespace SynetecAssessmentApi.Controllers
         [Produces("application/json")]
         [ProducesResponseType(typeof(CommandResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
        
         public async Task<IActionResult> CalculateBonus([FromBody] CalculateBonusDto request)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.GetErrorMessage());
+                return BadRequest(CommandResult.GetError(ModelState.GetErrorMessage().ToString()));
             }
 
             _logger.LogInformation("CalculateBonus  method called");
@@ -52,7 +53,8 @@ namespace SynetecAssessmentApi.Controllers
          var result=   await _bonusPoolService.CalculateAsync(
                 (int)request.TotalBonusPoolAmount,
                 (int)request.SelectedEmployeeId);
-            return Ok(CommandResult.GetSuccess(result));
+
+            return Ok(result);
         }
     }
 
