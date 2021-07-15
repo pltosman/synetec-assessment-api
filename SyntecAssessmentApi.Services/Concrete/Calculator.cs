@@ -8,7 +8,12 @@ namespace SyntecAssessmentApi.Services.Concrete
         public int getBonusAllocation(int salary, int totalSalary, int bonusPoolAmount)
         {
 
-            decimal bonusPercentage = salary / totalSalary;
+            if(totalSalary== 0)
+            {
+                return 0;
+            }
+
+            decimal bonusPercentage = (decimal)salary / (decimal)totalSalary;
             int bonusAllocation = (int)(bonusPercentage * bonusPoolAmount);
 
             return bonusAllocation;

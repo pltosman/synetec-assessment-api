@@ -32,6 +32,7 @@ namespace SynetecAssessmentApi.Controllers
             var result = await _bonusPoolService.GetEmployeesAsync();
 
             return Ok(CommandResult.GetSuccess(result));
+
         }
 
         [HttpPost()]
