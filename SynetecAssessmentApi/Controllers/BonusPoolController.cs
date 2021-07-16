@@ -54,6 +54,11 @@ namespace SynetecAssessmentApi.Controllers
                 (int)request.TotalBonusPoolAmount,
                 (int)request.SelectedEmployeeId);
 
+            if (!string.IsNullOrEmpty(result.Message) &&result.Message.Contains(request.SelectedEmployeeId.ToString())){
+                return BadRequest(result);
+            }
+
+
             return Ok(result);
         }
     }
